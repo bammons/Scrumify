@@ -33,8 +33,12 @@ ig.module(
 
 MyGame = ig.Game.extend({
 	
-	// Load a font
+	heartFull: new ig.Image('media/heart-full.png'),
+	heartEmpty: new ig.Image('media/heart-empty.png'),
+	font: new ig.Font('media/hudfont.png'),
+
 	gravity: 800,
+	chestObject: null,
 	sceneName: null,
 	pageName: null,
 	chageLevel: false,
@@ -44,15 +48,6 @@ MyGame = ig.Game.extend({
 	newQuestion: false,
 	passed: false,
 	responded: false,
-
-	STATE: {
-		GAMEOVER: 0,
-		GAMEPLAYING: 1,
-		PLAYERDEAD: 2,
-		LEVELTRANSITION: 3,
-		CUTSCENE: 4
-	},
-	
 	
 	init: function() {
 		// Initialize your game here; bind keys etc.
@@ -99,6 +94,29 @@ MyGame = ig.Game.extend({
 	
 	draw: function() {
 		// Draw all entities and backgroundMaps
+		if(!this.drawingScene) {
+			this.parent();
+		}
+
+		if(this.player) {
+			var x = 16, 
+				y = 16;
+
+			for(var i = 0; i < this.player.maxHealth; i++) {
+				// Full or empty heart?
+				if(this.player.health > i) {
+					this.heartFull.draw(x, y);
+				}
+				else {
+					this.heartEmpty.draw(x, y);	
+				}
+
+				x += this.heartEmpty.width + 8;
+			}
+
+			this.font.draw('  Points: ' + this.player.points, x, y+5);
+		}
+
 		if(this.newScene) {
 			if(this.myScenes.nextLine) {
 				this.myScenes.runScene(this.sceneName);
@@ -146,6 +164,8 @@ MyGame = ig.Game.extend({
 			this.myScenes.nextLine = false;
 			this.myScenes.runResponse(this.responded);
 			this.spawnEntity(EntityPage, this.player.pos.x+50, this.player.pos.y-10, {page: this.pageName});
+			this.player.points += 20;
+			this.chestObject.kill();
 		}
 		else if(!this.passed && !this.newQuestion && !this.newPage && !this.newScene && this.drawingScene) {
 			//TODO: Make Player take damage
@@ -153,13 +173,12 @@ MyGame = ig.Game.extend({
 			console.log('failed');
 			if(!this.responded) {
 				this.myScenes.nextLine = false;
+				this.player.health -= 1;
 			}
 			this.myScenes.runResponse(this.responded);
 		}
 
-		if(!this.drawingScene) {
-			this.parent();
-		}
+		
 	}
 });
 var scale = (window.innerWidth < 640) ? 2 : 1;

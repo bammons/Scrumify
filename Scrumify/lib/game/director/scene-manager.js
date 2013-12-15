@@ -415,6 +415,7 @@ ig.SceneManager = ig.Class.extend({
 			this.nextLine = true;
 			ig.game.passed = false;
 			ig.game.responded = true;
+			this.correctAnswerCount = 0;
 		}
 		
 		if(ig.input.pressed('ok')) {

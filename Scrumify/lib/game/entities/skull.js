@@ -24,6 +24,7 @@ EntitySkull = ig.Entity.extend({
 
 	check: function(other) {
 		this.kill();
+		ig.game.player.points += 10;
 	}
 });
 });

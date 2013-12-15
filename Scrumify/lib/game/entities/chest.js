@@ -29,7 +29,7 @@ EntityChest = ig.Entity.extend({
 		ig.game.drawingScene = true;
 		ig.game.sceneName = this.question;
 		ig.game.pageName = this.page;
-		this.kill();
+		ig.game.chestObject = this;
 
 	}
 });
