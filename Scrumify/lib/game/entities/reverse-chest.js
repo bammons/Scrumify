@@ -29,6 +29,10 @@ EntityReverseChest = ig.Entity.extend({
 
 	check: function(other) {
 		this.currentAnim = this.anims.open;
+		ig.game.newQuestion = true;
+		ig.game.drawingScene = true;
+		ig.game.sceneName = this.question;
+		this.kill();
 	}
 });
 });

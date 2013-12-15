@@ -34,13 +34,14 @@ MyGame = ig.Game.extend({
 	
 	// Load a font
 	gravity: 800,
-	sceneName: 'None',
+	sceneName: null,
 	chageLevel: false,
 	newScene: false,
 	drawingScene: false,
-	isKeyDown: false,
 	newPage: false,
 	newQuestion: false,
+	passed: false,
+	responded: false,
 
 	STATE: {
 		GAMEOVER: 0,
@@ -89,12 +90,7 @@ MyGame = ig.Game.extend({
 			this.changeLevel = false;
 		}
 
-		if(ig.input.state('ok')) {
-			this.isKeyDown = true;
-		}
-
-		if(!ig.input.state('ok') && this.isKeyDown) {
-			this.isKeyDown = false;
+		if(ig.input.pressed('ok')) {
 			this.myScenes.nextLine = true;
 		}
 	},
@@ -114,40 +110,50 @@ MyGame = ig.Game.extend({
 		}
 
 		if(this.newQuestion) {
-			if(ig.input.state('A')) {
+			if(ig.input.pressed('A')) {
 				this.myScenes.answer = 'A';
-				this.isKeyDown = true;
-			}
-			else if(ig.input.state('B')) {
-				this.myScenes.answer = 'B';
-				this.isKeyDown = true;
-			}
-			else if(ig.input.state('C')) {
-				this.myScenes.answer = 'C';
-				this.isKeyDown = true;
-			}
-			else if(ig.input.state('D')) {
-				this.myScenes.answer = 'D';
-				this.isKeyDown = true;
-			}
-			else if(ig.input.state('TRUE')) {
-				this.myScenes.answer = 'TRUE';
-				this.isKeyDown = true;
-			}
-			else if(ig.input.state('FALSE')) {
-				this.myScenes.answer = 'FALSE'
-				this.isKeyDown = true;
-			}
-
-			if(this.isKeyDown && !ig.input.state('FALSE') && !ig.input.state('TRUE') && !ig.input.state('A') && !ig.input.state('B') && !ig.input.state('C') && !ig.input.state('D')) {
 				this.myScenes.nextLine = true;
-				this.isKeyDown = false;
+			}
+			else if(ig.input.pressed('B')) {
+				this.myScenes.answer = 'B';
+				this.myScenes.nextLine = true;
+			}
+			else if(ig.input.pressed('C')) {
+				this.myScenes.answer = 'C';
+				this.myScenes.nextLine = true;
+			}
+			else if(ig.input.pressed('D')) {
+				this.myScenes.answer = 'D';
+				this.myScenes.nextLine = true;
+			}
+			else if(ig.input.pressed('TRUE')) {
+				this.myScenes.answer = 'TRUE';
+				this.myScenes.nextLine = true;
+			}
+			else if(ig.input.pressed('FALSE')) {
+				this.myScenes.answer = 'FALSE'
+				this.myScenes.nextLine = true;
 			}
 
 			if(this.myScenes.nextLine) {
 				this.myScenes.runQuestion(this.sceneName);
 			}
 		}
+
+		if(this.passed) {
+			this.myScenes.nextLine = false;
+			this.myScenes.runResponse(this.responded);
+		}
+		else if(!this.passed && !this.newQuestion && this.drawingScene) {
+			//TODO: Make Player take damage
+				//call to run results
+			console.log('failed');
+			if(!this.responded) {
+				this.myScenes.nextLine = false;
+			}
+			this.myScenes.runResponse(this.responded);
+		}
+
 		if(!this.drawingScene) {
 			this.parent();
 		}
