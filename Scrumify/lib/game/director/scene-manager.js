@@ -312,7 +312,7 @@ ig.SceneManager = ig.Class.extend({
 		if(this.currentScript < this.allScenes[sceneName].length && this.nextLine) {
 			this.drawChar(sceneName);
 			this.line = this.wordWrapper.wrapMessage(this.allScenes[sceneName][this.currentScript]);
-			this.font.draw(this.line, (ig.system.width / 2) - (this.dialogBox.width/2) + 70, this.dialogBox.height/2 + ig.system.height/4 + 20, ig.Font.ALIGN.LEFT);
+			this.font.draw(this.line, (ig.system.width / 2) - (this.dialogBox.width / 2) + 40, ig.system.height - this.dialogBox.height/2 + this.dialogBox.height/4 + 45, ig.Font.ALIGN.LEFT);
 			this.currentScript++;
 			this.nextLine = false;
 		}
@@ -328,20 +328,20 @@ ig.SceneManager = ig.Class.extend({
 		
 		if(sceneName == 'Scene29' || sceneName == 'Scene30') {
 			if(sceneName == 'Scene29') {
-				this.knight.draw(ig.system.width/20, 0);
-				this.princess.draw(ig.system.width/5, 0);
+				this.knight.draw((ig.system.width / 2) - (this.knight.width / 2) - 30, ig.system.height-this.knight.height + 30);
+				this.princess.draw((ig.system.width / 2) - (this.phantom.width / 2) + 100, ig.system.height-this.phantom.height + 45);
 				this.dialogBox.draw((ig.system.width / 2) - (this.dialogBox.width/2), ig.system.height - this.dialogBox.height + 80);
 			}
 			else {
-				this.knight.draw(ig.system.width/20, 0);
-				this.boss.draw(ig.system.width/10, 0);
+				this.knight.draw((ig.system.width / 2) - (this.knight.width / 2) - 30, ig.system.height-this.knight.height + 30);
+				this.boss.draw((ig.system.width / 2) - (this.phantom.width / 2), ig.system.height-this.phantom.height + 55);
 				this.dialogBox.draw((ig.system.width / 2) - (this.dialogBox.width/2), ig.system.height - this.dialogBox.height + 80);
 			}
 		}
 		else {
-			this.knight.draw(ig.system.width/20, 0);
-			this.phantom.draw(ig.system.width/5, 0);
-			this.dialogBox.draw((ig.system.width / 2) - (this.dialogBox.width/2), ig.system.height - this.dialogBox.height + 80);
+			this.knight.draw((ig.system.width / 2) - (this.knight.width / 2) - 30, ig.system.height-this.knight.height + 30);
+			this.phantom.draw((ig.system.width / 2) - (this.phantom.width / 2) + 100, ig.system.height-this.phantom.height + 20);
+			this.dialogBox.draw((ig.system.width / 2) - (this.dialogBox.width / 2), ig.system.height - this.dialogBox.height + 80);
 		}
 	},
 
@@ -350,7 +350,7 @@ ig.SceneManager = ig.Class.extend({
 		if(this.currentScript < this.pages[pageName].length && this.nextLine) {
 			this.dialogBox.draw((ig.system.width / 2) - (this.dialogBox.width/2), ig.system.height - this.dialogBox.height + 80);
 			this.line = this.wordWrapper.wrapMessage(this.pages[pageName][this.currentScript])
-			this.font.draw(this.line, (ig.system.width / 2) - (this.dialogBox.width/2) + 70, this.dialogBox.height/2 + ig.system.height/4 + 20, ig.Font.ALIGN.LEFT);
+			this.font.draw(this.line, (ig.system.width / 2) - (this.dialogBox.width / 2) + 40, ig.system.height - this.dialogBox.height/2 + this.dialogBox.height/4 + 45, ig.Font.ALIGN.LEFT);
 			this.currentScript++;
 			this.nextLine = false;
 		}
@@ -384,7 +384,7 @@ ig.SceneManager = ig.Class.extend({
 			}
 			this.prevAnswer = this.allCorrectAnswers[this.answerOption];
 			this.line = this.wordWrapper.wrapMessage(this.allQuestions[questionName][this.currentScript].concat(this.answerString));
-			this.font.draw(this.line, (ig.system.width / 2) - (this.dialogBox.width/2) + 70, this.dialogBox.height/2 + ig.system.height/4 + 20, ig.Font.ALIGN.LEFT);
+			this.font.draw(this.line, (ig.system.width / 2) - (this.dialogBox.width / 2) + 40, ig.system.height - this.dialogBox.height / 2 + this.dialogBox.height / 4 + 45, ig.Font.ALIGN.LEFT);
 			this.currentScript++;
 			this.answerString = null;
 			this.nextLine = false;
@@ -410,8 +410,8 @@ ig.SceneManager = ig.Class.extend({
 		if(!this.nextLine && !responded) {
 			this.val *= 100;
 			this.drawChar('a sceneName that doesnt matter');
-			this.line = this.wordWrapper.wrapMessage(this.allQuestions['Response'].concat(this.val.toFixed(2)).concat('% correctly.'));
-			this.font.draw(this.line, (ig.system.width / 2) - (this.dialogBox.width/2) + 70, this.dialogBox.height/2 + ig.system.height/4 + 20, ig.Font.ALIGN.LEFT);
+			this.line = this.wordWrapper.wrapMessage(this.allQuestions['Response'].concat(this.val.toFixed(2)).concat('% of the questions correctly.'));
+			this.font.draw(this.line, (ig.system.width / 2) - (this.dialogBox.width / 2) + 40, ig.system.height - this.dialogBox.height / 2 + this.dialogBox.height / 4 + 45, ig.Font.ALIGN.LEFT);
 			this.nextLine = true;
 			ig.game.passed = false;
 			ig.game.responded = true;
