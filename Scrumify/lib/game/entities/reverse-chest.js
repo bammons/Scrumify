@@ -2,7 +2,8 @@ ig.module(
 	'game.entities.reverse-chest'
 )
 .requires(
-	'impact.entity'
+	'impact.entity',
+	'game.entities.page'
 )
 .defines(function(){
 
@@ -32,6 +33,7 @@ EntityReverseChest = ig.Entity.extend({
 		ig.game.newQuestion = true;
 		ig.game.drawingScene = true;
 		ig.game.sceneName = this.question;
+		ig.game.pageName = this.page;
 		this.kill();
 	}
 });

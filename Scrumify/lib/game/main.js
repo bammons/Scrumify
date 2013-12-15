@@ -35,6 +35,7 @@ MyGame = ig.Game.extend({
 	// Load a font
 	gravity: 800,
 	sceneName: null,
+	pageName: null,
 	chageLevel: false,
 	newScene: false,
 	drawingScene: false,
@@ -143,8 +144,9 @@ MyGame = ig.Game.extend({
 		if(this.passed) {
 			this.myScenes.nextLine = false;
 			this.myScenes.runResponse(this.responded);
+			this.spawnEntity(EntityPage, this.player.pos.x+50, this.player.pos.y-10, {page: this.pageName});
 		}
-		else if(!this.passed && !this.newQuestion && this.drawingScene) {
+		else if(!this.passed && !this.newQuestion && !this.newPage && !this.newScene && this.drawingScene) {
 			//TODO: Make Player take damage
 				//call to run results
 			console.log('failed');

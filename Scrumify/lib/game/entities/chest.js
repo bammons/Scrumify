@@ -2,7 +2,8 @@ ig.module(
 	'game.entities.chest'
 )
 .requires(
-	'impact.entity'
+	'impact.entity',
+	'game.entities.page'
 )
 .defines(function(){
 
@@ -27,7 +28,9 @@ EntityChest = ig.Entity.extend({
 		ig.game.newQuestion = true;
 		ig.game.drawingScene = true;
 		ig.game.sceneName = this.question;
+		ig.game.pageName = this.page;
 		this.kill();
+
 	}
 });
 });
