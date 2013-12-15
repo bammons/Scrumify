@@ -21,6 +21,7 @@ EntitySceneTrigger = ig.Entity.extend({
 		ig.game.newScene = true;
 		ig.game.drawingScene = true;
 		ig.game.sceneName = this.sceneKey;
+		this.kill();
 	}
 });
 
