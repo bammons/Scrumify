@@ -19,7 +19,7 @@ EntityEnemyFireball = ig.Entity.extend({
 
 	//Custom properties for this particular enemy
 	speed: 90,
-	health: 3,
+	health: 1,
 	damage: 1,
 	flip: false,
 	dead: false,

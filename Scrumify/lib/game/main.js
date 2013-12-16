@@ -10,6 +10,7 @@ ig.module(
 	'game.entities.enemy-fireball',
 	'game.entities.enemy-punch',
 	'game.entities.enemy-sprint',
+	'game.entities.scrum-lord',
 	'game.entities.chest',
 	'game.entities.reverse-chest',
 	'game.entities.skull',
@@ -69,7 +70,7 @@ MyGame = ig.Game.extend({
 		ig.input.bind(ig.KEY.T, 'TRUE');
 		ig.input.bind(ig.KEY.F, 'FALSE');
 
-		this.myDirector = new ig.Director(this, [LevelLevel1,LevelLevel2,LevelLevel3,LevelLevel4,LevelBosslevel]); //LevelLevel1,LevelLevel2,
+		this.myDirector = new ig.Director(this, [LevelLevel1,LevelLevel2,LevelLevel3,LevelLevel4,LevelBosslevel]); //LevelLevel1,LevelLevel2,LevelLevel3,LevelLevel4,
 		this.myScenes = new ig.SceneManager();		
 	},
 	
