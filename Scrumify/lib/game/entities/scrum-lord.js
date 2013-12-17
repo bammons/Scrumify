@@ -18,7 +18,6 @@ EntityScrumLord = ig.Entity.extend({
 	speed: 60,
 	health: 15,
 	damage: 1,
-	transform: false,
 	flip: false,
 	dead: false,
 
@@ -32,7 +31,7 @@ EntityScrumLord = ig.Entity.extend({
 		this.addAnim('flash', 0.09, [24,25,26,27,28,29,30,31,32,33,34,35], true);
 		this.addAnim('walk', 0.14, [37,38,39,40,41,42,43]);
 
-		this.currentAnim = this.anims.walk;
+		this.currentAnim = this.anims.transform;
 	},
 
 	receiveDamage: function(amount, from) {
@@ -48,10 +47,7 @@ EntityScrumLord = ig.Entity.extend({
 		var randomStomp = Math.floor(Math.random()*400);
 		var randomFlash = Math.floor(Math.random()*400);
 
-		if(transform) {
-			
-		}
-		else if(randomKick == 5) {
+		if(randomKick == 5) {
 			this.anims.kick.rewind();
 			this.currentAnim = this.anims.kick;
 		}
@@ -64,7 +60,11 @@ EntityScrumLord = ig.Entity.extend({
 			this.currentAnim = this.anims.flash;
 		}
 
-		if(this.currentAnim == this.anims.kick && this.currentAnim.loopCount < 1) {
+		if(this.currentAnim == this.anims.transform && this.currentAnim.loopCount < 1) {
+			this.currentAnim = this.anims.transform;
+			this.vel.x = 0;
+		}
+		else if(this.currentAnim == this.anims.kick && this.currentAnim.loopCount < 1) {
 			this.currentAnim = this.anims.kick;
 		}
 		else if(this.currentAnim == this.anims.stomp && this.currentAnim.loopCount < 1) {

@@ -43,6 +43,8 @@ MyGame = ig.Game.extend({
 	sceneName: null,
 	pageName: null,
 	allPages: [],
+	transformTime: false,
+	spawned: false,
 	chageLevel: false,
 	newScene: false,
 	drawingScene: false,
@@ -75,7 +77,7 @@ MyGame = ig.Game.extend({
 		//Open Scrum Pages
 		ig.input.bind(ig.KEY.O, 'open');
 
-		this.myDirector = new ig.Director(this, [LevelLevel1,LevelLevel2,LevelLevel3,LevelLevel4,LevelBosslevel]); //LevelLevel1,LevelLevel2,LevelLevel3,LevelLevel4,
+		this.myDirector = new ig.Director(this, [LevelBosslevel]); //LevelLevel1,LevelLevel2,LevelLevel3,LevelLevel4,
 		this.myScenes = new ig.SceneManager();		
 	},
 	
@@ -102,11 +104,22 @@ MyGame = ig.Game.extend({
 			this.myScenes.nextLine = true;
 			this.drawingScene = true;
 		}
+
+		if(this.transformTime) {
+			this.spawnEntity(EntityScrumLord, this.player.pos.x+200, this.player.pos.y - 100);
+			console.log("ummm")
+			this.spawned = true;
+			this.transformTime = false;
+		}
 	},
 	
 	draw: function() {
 		// Draw all entities and backgroundMaps
 		if(!this.drawingScene) {
+			if(this.sceneName == 'Scene29' && !this.spawned) {
+				this.transformTime = true;
+			}
+
 			this.parent();
 		}
 
