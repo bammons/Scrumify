@@ -42,10 +42,13 @@ MyGame = ig.Game.extend({
 	chestObject: null,
 	sceneName: null,
 	pageName: null,
+	allPages: [],
 	chageLevel: false,
 	newScene: false,
 	drawingScene: false,
 	newPage: false,
+	openPages: false,
+	combine: false,
 	newQuestion: false,
 	passed: false,
 	responded: false,
@@ -69,6 +72,8 @@ MyGame = ig.Game.extend({
 		ig.input.bind(ig.KEY.D, 'D');
 		ig.input.bind(ig.KEY.T, 'TRUE');
 		ig.input.bind(ig.KEY.F, 'FALSE');
+		//Open Scrum Pages
+		ig.input.bind(ig.KEY.O, 'open');
 
 		this.myDirector = new ig.Director(this, [LevelLevel1,LevelLevel2,LevelLevel3,LevelLevel4,LevelBosslevel]); //LevelLevel1,LevelLevel2,LevelLevel3,LevelLevel4,
 		this.myScenes = new ig.SceneManager();		
@@ -91,6 +96,12 @@ MyGame = ig.Game.extend({
 		if(ig.input.pressed('ok')) {
 			this.myScenes.nextLine = true;
 		}
+
+		if(ig.input.pressed('open')) {
+			this.openPages = true;
+			this.myScenes.nextLine = true;
+			this.drawingScene = true;
+		}
 	},
 	
 	draw: function() {
@@ -98,6 +109,8 @@ MyGame = ig.Game.extend({
 		if(!this.drawingScene) {
 			this.parent();
 		}
+
+		
 
 		if(this.player) {
 			var x = 16, 
@@ -127,6 +140,16 @@ MyGame = ig.Game.extend({
 		if(this.newPage) {
 			if(this.myScenes.nextLine) {
 				this.myScenes.runPage(this.sceneName);
+			}
+		}
+
+		if(this.openPages) {
+			if(!this.combine) {
+				this.allPages = this.myScenes.combineAllPages();
+				console.log(this.allPages);
+			}
+			else if(this.myScenes.nextLine) {
+				this.myScenes.runAllPages(this.allPages);
 			}
 		}
 
@@ -168,7 +191,7 @@ MyGame = ig.Game.extend({
 			this.player.points += 20;
 			this.chestObject.kill();
 		}
-		else if(!this.passed && !this.newQuestion && !this.newPage && !this.newScene && this.drawingScene) {
+		else if(!this.passed && !this.newQuestion && !this.newPage && !this.newScene && !this.openPages && this.drawingScene) {
 			//TODO: Make Player take damage
 				//call to run results
 			console.log('failed');

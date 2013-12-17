@@ -26,6 +26,8 @@ EntityPage = ig.Entity.extend({
 		ig.game.newPage = true;
 		ig.game.drawingScene = true;
 		ig.game.sceneName = this.page;
+		ig.game.player.pages.push(this.page);
+		console.log(ig.game.player.pages);
 		this.kill();
 	}
 });

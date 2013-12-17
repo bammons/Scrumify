@@ -34,7 +34,7 @@ EntityPlayer = ig.Entity.extend({
 	doubleJump: 800,	
 	maxHealth: 3,
 
-	pages: 0,
+	pages: [],
 	points: 0,
 	swordSpawn: false,
 

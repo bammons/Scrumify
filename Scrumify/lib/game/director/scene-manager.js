@@ -20,6 +20,7 @@ ig.SceneManager = ig.Class.extend({
 		this.boss = new ig.Image('media/dialouge_boss.png');
 		this.dialogBox = new ig.Image('media/dialouge_scroll.png');
 		this.wordWrapper = new WordWrapper(this.font, {w: 925});
+		this.allPages = [];
 		this.line = null;
 		this.answer = null;
 		this.answerString = null;
@@ -42,7 +43,7 @@ ig.SceneManager = ig.Class.extend({
 						'*castle begins to rumble*',
 						'SK: This castle seems very unstable, I only have a limited time to find the page and get out of here!',
 						'FSKP: Thats right! You better hurry!'],
-			Scene2: ['FSKP: That looks like one of those Scrum pages you said you were looking for. I would recommend you read through all of it. The information may come in handy at some point. Also! Dont forget to explore everywhere! Missing something could cost you your life.'],
+			Scene2: ['FSKP: That looks like one of those Scrum pages you said you were looking for. I would recommend you read through all of it. The information may come in handy at some point. Also! Dont forget to explore everywhere! Missing something could cost you your life. If you want to review your pages press o.'],
 			Scene3: ['SK: I can sense that a page is in that chest!',
 						'FSKP: The chest looks like it would respond when you run into it.'],
 			Scene4: ['SK: I can tell the page is just inside that door!'],
@@ -349,7 +350,7 @@ ig.SceneManager = ig.Class.extend({
 		pageName = pageName.toString();
 		if(this.currentScript < this.pages[pageName].length && this.nextLine) {
 			this.dialogBox.draw((ig.system.width / 2) - (this.dialogBox.width/2), ig.system.height - this.dialogBox.height + 80);
-			this.line = this.wordWrapper.wrapMessage(this.pages[pageName][this.currentScript])
+			this.line = this.wordWrapper.wrapMessage(this.pages[pageName][this.currentScript]);
 			this.font.draw(this.line, (ig.system.width / 2) - (this.dialogBox.width / 2) + 40, ig.system.height - this.dialogBox.height/2 + this.dialogBox.height/4 + 45, ig.Font.ALIGN.LEFT);
 			this.currentScript++;
 			this.nextLine = false;
@@ -362,12 +363,43 @@ ig.SceneManager = ig.Class.extend({
 		}
 	},
 
+	runAllPages: function(pageArr) {
+		console.log(pageArr);
+		if(this.currentScript < pageArr.length && this.nextLine) {
+			this.dialogBox.draw((ig.system.width / 2) - (this.dialogBox.width/2), ig.system.height - this.dialogBox.height + 80);
+			this.line = this.wordWrapper.wrapMessage(pageArr[this.currentScript]);
+			this.font.draw(this.line, (ig.system.width / 2) - (this.dialogBox.width / 2) + 40, ig.system.height - this.dialogBox.height/2 + this.dialogBox.height/4 + 45, ig.Font.ALIGN.LEFT);
+			this.currentScript++;
+			this.nextLine = false;
+		}
+		else if(this.currentScript >= pageArr.length) {
+			this.currentScript = 0;
+			this.nextLine = true;
+			ig.game.openPages = false;
+			ig.game.drawingScene = false;
+			ig.game.combine = false;
+			this.allPages = [];
+		}
+	},
+
+	combineAllPages: function() {
+		console.log('I got ran');
+		for(j = 0; j < ig.game.player.pages.length; j++) {
+			console.log(ig.game.player.pages);
+			var pName = ig.game.player.pages[j].toString();
+			for(i = 0; i < this.pages[pName].length; i++) {
+				this.allPages.push(this.pages[pName][i]);
+			}	
+		}
+		ig.game.combine = true;
+		return this.allPages;
+	},
+
 	runQuestion: function(questionName) {
 		questionName = questionName.toString();
 		var offset = 20;
 		if(this.answer == this.prevAnswer && this.answer != null) {
 			this.correctAnswerCount++;
-			console.log('I landed');
 		}
 		if(this.currentScript < this.allQuestions[questionName].length && this.nextLine) {
 
@@ -396,9 +428,6 @@ ig.SceneManager = ig.Class.extend({
 			this.nextLine = true;
 			var totalq = this.allQuestions[questionName].length;
 			this.val = this.correctAnswerCount/totalq;
-			console.log(this.val);
-			console.log(this.correctAnswerCount);
-			console.log(totalq);
 			ig.game.newQuestion = false;
 			if(this.val == 1) {
 				ig.game.passed = true;
