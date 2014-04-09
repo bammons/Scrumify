@@ -77,7 +77,7 @@ MyGame = ig.Game.extend({
 		//Open Scrum Pages
 		ig.input.bind(ig.KEY.O, 'open');
 
-		this.myDirector = new ig.Director(this, [LevelBosslevel]); //LevelLevel1,LevelLevel2,LevelLevel3,LevelLevel4,
+		this.myDirector = new ig.Director(this, [LevelLevel1,LevelLevel2,LevelLevel3,LevelLevel4,LevelBosslevel]);
 		this.myScenes = new ig.SceneManager();		
 	},
 	

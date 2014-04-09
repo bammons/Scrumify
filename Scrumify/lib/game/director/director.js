@@ -57,7 +57,7 @@ ig.Director = ig.Class.extend({
 			return this.loadLevel(this.currentLevel - 1);
 		}
 		else{
-			return false
+			return false;
 		}
 	},
 
